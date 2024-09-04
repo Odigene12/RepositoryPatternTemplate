@@ -184,8 +184,25 @@ app.Run();
   
 - In the `MapGet()` method, we request the `IWeatherForecastRepository`, and .NET Core automatically injects the correct repository instance.
 
+### Unit Testing:
+Here’s a summarized breakdown of the key differences between **service layer** and **repository layer** tests:
+
+| **Aspect**                   | **Repository Layer Tests**                                  | **Service Layer Tests**                                  |
+|------------------------------|-------------------------------------------------------------|----------------------------------------------------------|
+| **Focus**                     | Tests data access logic (CRUD operations).                  | Tests business logic and coordination of multiple components (e.g., repositories). |
+| **Level of Abstraction**      | Low-level, closer to the database.                          | Higher-level, focusing on the logic that uses data from repositories. |
+| **Dependencies**              | Interacts with the data source, often mocking the `DbContext` or using an in-memory database. | Interacts with repositories and other services, usually mocking repositories. |
+| **Tools Used**                | Mocks or in-memory databases for data access (e.g., `DbContext`). | Mocks repository interfaces (e.g., `IRepository`) to isolate the service logic. |
+| **Typical Errors Tested**     | Data retrieval, saving, updating, or deleting operations.   | Validation errors, business rule violations, and service coordination issues. |
+| **Example**                   | Tests if `GetById()` fetches data from the database correctly. | Tests if `CreateForecast()` validates input and calls the repository correctly. |
+
+### Summary:
+- **Repository layer tests** focus on ensuring correct data interactions with the database, often using tools like in-memory databases or `DbContext` mocks.
+- **Service layer tests** focus on the business logic and how it interacts with repositories or other services, typically using mocked repositories to isolate service behavior.
+
 ## Conclusion
 
 - **Repository Pattern** helps in separating the data access logic from the business logic.
 - **Dependency Injection** makes it easy to manage dependencies and write testable, maintainable code.
 - .NET Core provides built-in support for DI, making it simple to set up and use in your applications.
+- **Unit Testing** Unit testing is important because it helps ensure that individual components of your code work correctly in isolation.
