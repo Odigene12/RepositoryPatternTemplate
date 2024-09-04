@@ -1,4 +1,4 @@
-# Repository Pattern and Dependency Injection in .NET
+# Repository Pattern & Dependency Injection in .NET
 
 ## Table of Contents
 - [What is the Repository Pattern?](#what-is-the-repository-pattern)
