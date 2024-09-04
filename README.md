@@ -189,4 +189,3 @@ app.Run();
 - **Repository Pattern** helps in separating the data access logic from the business logic.
 - **Dependency Injection** makes it easy to manage dependencies and write testable, maintainable code.
 - .NET Core provides built-in support for DI, making it simple to set up and use in your applications.
-```
