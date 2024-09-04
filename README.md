@@ -1,5 +1,3 @@
-Here's the updated markdown file ensuring proper rendering on GitHub:
-
 ```markdown
 # Repository Pattern and Dependency Injection in .NET Core
 
