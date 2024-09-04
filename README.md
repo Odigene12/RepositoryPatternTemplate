@@ -1,6 +1,6 @@
 Here’s a markdown file that explains the repository pattern and dependency injection, along with how dependency injection works in a .NET Core project:
 
-```markdown
+```
 # Repository Pattern and Dependency Injection in .NET Core
 
 ## Table of Contents
@@ -22,7 +22,7 @@ The **Repository Pattern** is a design pattern used to separate the logic that i
 - If you want to change the underlying data source (for example, from SQL Server to MongoDB), you only need to modify the repository, not the rest of your application.
 
 ### Example of a Repository Interface:
-```csharp
+```
 public interface IWeatherForecastRepository
 {
     // An interface is a contract that defines the signature of the functionality.
@@ -39,7 +39,7 @@ public interface IWeatherForecastRepository
 ```
 
 ### Example of a Repository Implementation:
-```csharp
+```
 public class WeatherForecastRepository : IWeatherForecastRepository
 {
      // The repository layer is responsible for CRUD operations.
@@ -79,7 +79,7 @@ public class WeatherForecastRepository : IWeatherForecastRepository
 - DI makes testing and maintaining your code easier because you can replace real dependencies with mock ones during testing.
 
 ### Example Without Dependency Injection:
-```csharp
+```
 public class WeatherService
 {
     private readonly WeatherForecastRepository _repository;
@@ -97,7 +97,7 @@ public class WeatherService
 ```
 
 ### Example With Dependency Injection:
-```csharp
+```
 public class WeatherService
 {
      private readonly IWeatherForecastRepository _weatherForecastRepo;
@@ -139,7 +139,7 @@ Here’s an example of how to register and use Dependency Injection in a Minimal
 
 ### Registering Dependencies in `Program.cs`:
 
-```csharp
+```
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("RepositoryPatternTemplateDbConnection");
 
@@ -155,7 +155,7 @@ var app = builder.Build();
 
 ### Injecting Dependencies in Minimal API:
 
-```csharp
+```
 // Here we are calling the extension method MapWeatherEndpoints() to map the weather endpoints.    
 app.MapWeatherEndpoints();
 app.Run();
