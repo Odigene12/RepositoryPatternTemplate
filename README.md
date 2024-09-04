@@ -1,6 +1,6 @@
-Here’s a markdown file that explains the repository pattern and dependency injection, along with how dependency injection works in a .NET Core project:
+Here's the updated markdown file ensuring proper rendering on GitHub:
 
-```csharp
+```markdown
 # Repository Pattern and Dependency Injection in .NET Core
 
 ## Table of Contents
@@ -25,11 +25,6 @@ The **Repository Pattern** is a design pattern used to separate the logic that i
 ```csharp
 public interface IWeatherForecastRepository
 {
-    // An interface is a contract that defines the signature of the functionality.
-    // It defines a set of methods that a class that implements the interface must implement.
-    // The interface is a mechanism to achieve abstraction.
-    // Interfaces are not classes, however, and cannot be instantiated.
-    // Interfaces can be used in unit testing to mock out the actual implementation.
     Task<List<WeatherForecast>> GetWeatherForecastAsync();
     Task<WeatherForecast> GetWeatherForecastByIdAsync(int id);
     Task<WeatherForecast> CreateWeatherForecastAsync(WeatherForecast weatherForecast);
@@ -42,9 +37,6 @@ public interface IWeatherForecastRepository
 ```csharp
 public class WeatherForecastRepository : IWeatherForecastRepository
 {
-     // The repository layer is responsible for CRUD operations.
-     // The repository layer will call the database context to do the actual CRUD operations.
-     // The repository layer will return the data to the service layer.
      private readonly WeatherForecastDbContext _context;
     
      public WeatherForecastRepository(WeatherForecastDbContext context)
@@ -173,3 +165,4 @@ app.Run();
 - **Repository Pattern** helps in separating the data access logic from the business logic.
 - **Dependency Injection** makes it easy to manage dependencies and write testable, maintainable code.
 - .NET Core provides built-in support for DI, making it simple to set up and use in your applications.
+```
