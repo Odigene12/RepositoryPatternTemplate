@@ -10,8 +10,6 @@ Here's the updated markdown file ensuring proper rendering on GitHub:
 - [How Does Dependency Injection Work in .NET Core?](#how-does-dependency-injection-work-in-net-core)
 - [Example of Dependency Injection in a .NET Core Project](#example-of-dependency-injection-in-a-net-core-project)
 
----
-
 ## What is the Repository Pattern?
 
 The **Repository Pattern** is a design pattern used to separate the logic that interacts with the database (or any data source) from the business logic in your application. It acts as an intermediary between the data access layer and the business logic layer.
@@ -22,6 +20,7 @@ The **Repository Pattern** is a design pattern used to separate the logic that i
 - If you want to change the underlying data source (for example, from SQL Server to MongoDB), you only need to modify the repository, not the rest of your application.
 
 ### Example of a Repository Interface:
+
 ```csharp
 public interface IWeatherForecastRepository
 {
@@ -50,8 +49,6 @@ public class WeatherForecastRepository : IWeatherForecastRepository
      }
 }
 ```
-
----
 
 ## Benefits of the Repository Pattern
 
