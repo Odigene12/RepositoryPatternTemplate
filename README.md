@@ -25,9 +25,16 @@ The **Repository Pattern** is a design pattern used to separate the logic that i
 ```csharp
 public interface IWeatherForecastRepository
 {
-    Task<IEnumerable<WeatherForecast>> GetForecastsAsync();
-    Task AddForecastAsync(WeatherForecast forecast);
-    // Other methods like Update, Delete, etc.
+    // An interface is a contract that defines the signature of the functionality.
+    // It defines a set of methods that a class that implements the interface must implement.
+    // The interface is a mechanism to achieve abstraction.
+    // Interfaces are not classes, however, and cannot be instantiated.
+    // Interfaces can be used in unit testing to mock out the actual implementation.
+    Task<List<WeatherForecast>> GetWeatherForecastAsync();
+    Task<WeatherForecast> GetWeatherForecastByIdAsync(int id);
+    Task<WeatherForecast> CreateWeatherForecastAsync(WeatherForecast weatherForecast);
+    Task<WeatherForecast> UpdateWeatherForecastAsync(int id, WeatherForecast weatherForecast);
+    Task<WeatherForecast> DeleteWeatherForecastAsync(int id);
 }
 ```
 
@@ -35,23 +42,20 @@ public interface IWeatherForecastRepository
 ```csharp
 public class WeatherForecastRepository : IWeatherForecastRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public WeatherForecastRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<IEnumerable<WeatherForecast>> GetForecastsAsync()
-    {
-        return await _context.WeatherForecasts.ToListAsync();
-    }
-
-    public async Task AddForecastAsync(WeatherForecast forecast)
-    {
-        await _context.WeatherForecasts.AddAsync(forecast);
-        await _context.SaveChangesAsync();
-    }
+     // The repository layer is responsible for CRUD operations.
+     // The repository layer will call the database context to do the actual CRUD operations.
+     // The repository layer will return the data to the service layer.
+     private readonly WeatherForecastDbContext _context;
+    
+     public WeatherForecastRepository(WeatherForecastDbContext context)
+     {
+         _context = context;
+     }
+    
+     public async Task<List<WeatherForecast>> GetWeatherForecastAsync()
+     {
+         return await _context.WeatherForecasts.ToListAsync();
+     }
 }
 ```
 
@@ -96,17 +100,17 @@ public class WeatherService
 ```csharp
 public class WeatherService
 {
-    private readonly IWeatherForecastRepository _repository;
-
-    public WeatherService(IWeatherForecastRepository repository)  // The dependency is injected
-    {
-        _repository = repository;
-    }
-
-    public void GetWeatherData()
-    {
-        var data = _repository.GetForecastsAsync();
-    }
+     private readonly IWeatherForecastRepository _weatherForecastRepo;
+        
+     public WeatherForecastService(IWeatherForecastRepository weatherForecastRepo) 
+     {
+         _weatherForecastRepo = weatherForecastRepo;
+     }
+    
+     public async Task<WeatherForecast> CreateWeatherForecastAsync(WeatherForecast weatherForecast)
+     {
+         return await _weatherForecastRepo.CreateWeatherForecastAsync(weatherForecast);
+     }
 }
 ```
 
@@ -118,7 +122,7 @@ In .NET Core, Dependency Injection is provided out of the box. You register your
 
 ### Steps to Use Dependency Injection:
 
-1. **Register Dependencies**: Register your services (like repositories) with the DI container in the `Program.cs` or `Startup.cs` file.
+1. **Register Dependencies**: Register your services (like repositories) with the DI container in the `Program.cs` file.
    
 2. **Inject Dependencies**: Use **constructor injection** in your classes to receive the dependencies.
 
@@ -137,12 +141,13 @@ Here’s an example of how to register and use Dependency Injection in a Minimal
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("RepositoryPatternTemplateDbConnection");
 
 // Register the ApplicationDbContext with the DI container
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<WeatherForecastDbContext>(options => options.UseNpgsql(connectionString));
 
 // Register the repository with the DI container
+builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 builder.Services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
 
 var app = builder.Build();
@@ -151,13 +156,8 @@ var app = builder.Build();
 ### Injecting Dependencies in Minimal API:
 
 ```csharp
-app.MapGet("/weather", async (IWeatherForecastRepository repository) =>
-{
-    // Use the injected repository
-    var forecasts = await repository.GetForecastsAsync();
-    return Results.Ok(forecasts);
-});
-
+// Here we are calling the extension method MapWeatherEndpoints() to map the weather endpoints.    
+app.MapWeatherEndpoints();
 app.Run();
 ```
 
@@ -174,5 +174,3 @@ app.Run();
 - **Dependency Injection** makes it easy to manage dependencies and write testable, maintainable code.
 - .NET Core provides built-in support for DI, making it simple to set up and use in your applications.
 ```
-
-This markdown file introduces both the repository pattern and dependency injection concepts and explains how dependency injection works in a .NET Core project in simple terms for students.
