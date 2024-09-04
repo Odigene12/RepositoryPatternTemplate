@@ -1,4 +1,3 @@
-```markdown
 # Repository Pattern and Dependency Injection in .NET Core
 
 ## Table of Contents
@@ -54,8 +53,6 @@ public class WeatherForecastRepository : IWeatherForecastRepository
 - **Easier Testing**: You can mock the repository in unit tests to test your business logic without depending on the actual database.
 - **Maintainability**: It’s easier to maintain and update the data access logic without affecting other parts of the application.
 
----
-
 ## What is Dependency Injection?
 
 **Dependency Injection (DI)** is a technique where objects (dependencies) are provided to a class instead of the class creating them itself. This allows for **loose coupling** and makes it easier to change the implementation or mock dependencies for testing.
@@ -101,8 +98,6 @@ public class WeatherService
 }
 ```
 
----
-
 ## How Does Dependency Injection Work in .NET Core?
 
 In .NET Core, Dependency Injection is provided out of the box. You register your services (like repositories, database contexts, etc.) with the DI container, and the framework automatically provides these dependencies when needed.
@@ -117,8 +112,6 @@ In .NET Core, Dependency Injection is provided out of the box. You register your
 - **Transient**: A new instance is created every time the service is requested.
 - **Scoped**: A single instance is created for each HTTP request.
 - **Singleton**: A single instance is created and shared throughout the application lifetime.
-
----
 
 ## Example of Dependency Injection in a .NET Core Project
 
@@ -152,8 +145,6 @@ app.Run();
 - **`builder.Services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();`**: This line registers the `WeatherForecastRepository` with the DI container. It tells .NET Core to inject an instance of `WeatherForecastRepository` whenever `IWeatherForecastRepository` is requested.
   
 - In the `MapGet()` method, we request the `IWeatherForecastRepository`, and .NET Core automatically injects the correct repository instance.
-
----
 
 ## Conclusion
 
