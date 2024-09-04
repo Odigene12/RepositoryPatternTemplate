@@ -1,4 +1,4 @@
-```markdown
+```
 # Repository Pattern and Dependency Injection in .NET Core
 
 ## Table of Contents
