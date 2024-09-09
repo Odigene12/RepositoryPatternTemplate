@@ -182,7 +182,17 @@ app.Run();
 ### Explanation:
 - **`builder.Services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();`**: This line registers the `WeatherForecastRepository` with the DI container. It tells .NET Core to inject an instance of `WeatherForecastRepository` whenever `IWeatherForecastRepository` is requested.
   
-- In the `MapGet()` method, we request the `IWeatherForecastRepository`, and .NET Core automatically injects the correct repository instance.
+- In the `MapGet()` method, we request the `IWeatherForecastService`, and .NET Core automatically injects the correct instance of the service.
+```csharp
+group.MapGet("/", async (IWeatherForecastService weatherService) =>
+            {
+                return await weatherService.GetWeatherForecastAsync();
+            })
+            .WithName("GetWeatherForecast") // This is the name of the endpoint that Swagger will display.
+            .WithOpenApi()
+            .Produces<List<WeatherForecast>>(StatusCodes.Status200OK); // This is the response type and status code.
+
+```
 
 ### Unit Testing:
 Here’s a summarized breakdown of the key differences between **service layer** and **repository layer** tests:
