@@ -14,7 +14,7 @@ The **Repository Pattern** is a design pattern used to separate the logic that i
 ### Key Points:
 - The repository provides a set of methods to query, save, and delete data.
 - It allows you to **decouple** your business logic from data access logic.
-- If you want to change the underlying data source (for example, from SQL Server to MongoDB), you only need to modify the repository, not the rest of your application.
+- If you want to change the underlying data source (for example, from SQL Server to MongoDB or PostGres), you only need to modify the repository, not the rest of your application.
 
 ### Example of a Repository Interface:
 
